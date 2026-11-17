@@ -2,7 +2,6 @@
 /.mooncakes/
 /.validation-cache/
 /.credentials-free/
-/model_generated.mbt
 /audit/
 /closeout-audit/
 /evidence/*

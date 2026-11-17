@@ -35,8 +35,8 @@ for command in commands:
         unexpected = [entry for entry in entries if
             entry.startswith(("audit/", "closeout-audit/", ".validation-cache/")) or
             (entry.startswith("evidence/") and entry != "evidence/schema-sources.json") or
-            entry.endswith(".bundle") or entry == "model_generated.mbt"]
-        if unexpected or "models/insurance.dmn" not in entries or "evidence/schema-sources.json" not in entries:
+            entry.endswith(".bundle")]
+        if unexpected or "models/insurance.dmn" not in entries or "model_generated.mbt" not in entries or "evidence/schema-sources.json" not in entries:
             result.returncode = 1
             stderr += "Unexpected package contents: " + repr(unexpected)
     records.append({
