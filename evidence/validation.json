@@ -35,7 +35,9 @@
     "command": [
       "moon",
       "check",
-      "--deny-warn"
+      "--deny-warn",
+      "--target",
+      "native"
     ],
     "exit_code": 0,
     "status": "passed",
@@ -45,11 +47,14 @@
   {
     "command": [
       "moon",
-      "test"
+      "test",
+      "--deny-warn",
+      "--target",
+      "native"
     ],
     "exit_code": 0,
     "status": "passed",
-    "stdout": "Total tests: 7, passed: 7, failed: 0.\n",
+    "stdout": "Total tests: 8, passed: 8, failed: 0.\n",
     "stderr": ""
   },
   {
@@ -69,12 +74,13 @@
     "command": [
       "moon",
       "test",
+      "--deny-warn",
       "--target",
       "js"
     ],
     "exit_code": 0,
     "status": "passed",
-    "stdout": "Total tests: 7, passed: 7, failed: 0.\n",
+    "stdout": "Total tests: 8, passed: 8, failed: 0.\n",
     "stderr": ""
   },
   {
@@ -94,12 +100,13 @@
     "command": [
       "moon",
       "test",
+      "--deny-warn",
       "--target",
       "wasm-gc"
     ],
     "exit_code": 0,
     "status": "passed",
-    "stdout": "Total tests: 7, passed: 7, failed: 0.\n",
+    "stdout": "Total tests: 8, passed: 8, failed: 0.\n",
     "stderr": ""
   },
   {
@@ -120,7 +127,7 @@
     "exit_code": 0,
     "status": "passed",
     "stdout": "Artifacts:\n  sundaysebasidian-byte/moondmn-pricing/cmd/main  native  <module>/_build/native/debug/build/cmd/main/main.exe\n",
-    "stderr": "Finished. moon: ran 19 tasks, now up to date\n....\n----------------------------------------------------------------------\nRan 4 tests in 1.946s\n\nOK\n"
+    "stderr": "Finished. moon: ran 19 tasks, now up to date\n.....\n----------------------------------------------------------------------\nRan 5 tests in 8.447s\n\nOK\n"
   },
   {
     "command": [
@@ -146,7 +153,7 @@
     "exit_code": 0,
     "status": "passed",
     "stdout": "",
-    "stderr": "Warning: 'repository' field is not set or empty in module manifest\nRunning moon check ...\nFinished. moon: ran 18 tasks, now up to date\nCheck passed\nLICENSE\nREADME.md\nci/ci.yml\ncloseout-audit/README.md\ncloseout-audit/manifest.json\ncmd/main/main.mbt\ncmd/main/moon.pkg\ncmd/main/pkg.generated.mbti\nevidence/schema-sources.json\nevidence/validation.json\nmodels/insurance.dmn\nmoon.mod\nmoon.pkg\npkg.generated.mbti\npricing.mbt\npricing_wbtest.mbt\nsamples/standard.expected.json\nsamples/standard.json\nscripts/check-personal-data.py\nscripts/test-cli.py\nscripts/validate-model.py\nscripts/verify.py\nvalidation_wbtest.mbt\nPackage to <module>/_build/publish/sundaysebasidian-byte-moondmn-pricing-0.1.0.zip\n"
+    "stderr": "Warning: 'repository' field is not set or empty in module manifest\nRunning moon check ...\nFinished. moon: ran 18 tasks, now up to date\nCheck passed\nLICENSE\nREADME.md\nci/ci.yml\ncmd/main/main.mbt\ncmd/main/moon.pkg\ncmd/main/pkg.generated.mbti\nevidence/schema-sources.json\nmodels/insurance.dmn\nmoon.mod\nmoon.pkg\npkg.generated.mbti\npricing.mbt\npricing_wbtest.mbt\nsamples/standard.expected.json\nsamples/standard.json\nscripts/check-personal-data.py\nscripts/test-cli.py\nscripts/validate-model.py\nscripts/verify.py\nvalidation_wbtest.mbt\nPackage to <module>/_build/publish/sundaysebasidian-byte-moondmn-pricing-0.1.0.zip\n"
   },
   {
     "command": [
@@ -165,18 +172,7 @@
     ],
     "exit_code": 0,
     "status": "passed",
-    "stdout": "Personal-data grep clean: 24 deliverable files\n",
+    "stdout": "Personal-data grep clean: 25 deliverable files\n",
     "stderr": ""
-  },
-  {
-    "command": [
-      "moon",
-      "publish",
-      "--dry-run"
-    ],
-    "exit_code": 255,
-    "status": "blocked_no_credentials",
-    "stdout": "",
-    "stderr": "Registry login is required; run `moon login`\nError: `moon publish` failed\n"
   }
 ]

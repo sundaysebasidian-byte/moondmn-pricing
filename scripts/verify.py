@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run local acceptance checks, retaining sanitized results and the dry-run limit."""
+"""Run local acceptance checks and retain sanitized results without publishing."""
 import json
 import os
 from pathlib import Path
@@ -7,25 +7,22 @@ import subprocess
 
 root = Path(__file__).resolve().parent.parent
 os.chdir(root)
-os.environ["MOON_HOME"] = "/tmp/moon-new"
-os.environ["PATH"] = "/tmp/moon-new/bin:" + os.environ["PATH"]
 commands = [
     ["moon", "version", "--all"],
     ["moon", "fmt"],
     ["moon", "fmt", "--check"],
-    ["moon", "check", "--deny-warn"],
-    ["moon", "test"],
+    ["moon", "check", "--deny-warn", "--target", "native"],
+    ["moon", "test", "--deny-warn", "--target", "native"],
     ["moon", "check", "--deny-warn", "--target", "js"],
-    ["moon", "test", "--target", "js"],
+    ["moon", "test", "--deny-warn", "--target", "js"],
     ["moon", "check", "--deny-warn", "--target", "wasm-gc"],
-    ["moon", "test", "--target", "wasm-gc"],
+    ["moon", "test", "--deny-warn", "--target", "wasm-gc"],
     ["python3", "scripts/validate-model.py"],
     ["python3", "scripts/test-cli.py"],
     ["moon", "run", "cmd/main", "--target", "native", "--", "samples/standard.json"],
     ["moon", "package", "--list"],
     ["moon", "package"],
     ["python3", "scripts/check-personal-data.py"],
-    ["moon", "publish", "--dry-run"],
 ]
 records = []
 failed = False
@@ -33,14 +30,22 @@ for command in commands:
     result = subprocess.run(command, text=True, capture_output=True)
     stdout = result.stdout.replace(str(root), "<module>").replace(str(Path.home()), "<home>")
     stderr = result.stderr.replace(str(root), "<module>").replace(str(Path.home()), "<home>")
-    expected_block = command == ["moon", "publish", "--dry-run"] and result.returncode != 0 and "Registry login is required" in stdout + stderr
+    if command == ["moon", "package", "--list"] and result.returncode == 0:
+        entries = (stdout + stderr).splitlines()
+        unexpected = [entry for entry in entries if
+            entry.startswith(("audit/", "closeout-audit/", ".validation-cache/")) or
+            (entry.startswith("evidence/") and entry != "evidence/schema-sources.json") or
+            entry.endswith(".bundle") or entry == "model_generated.mbt"]
+        if unexpected or "models/insurance.dmn" not in entries or "evidence/schema-sources.json" not in entries:
+            result.returncode = 1
+            stderr += "Unexpected package contents: " + repr(unexpected)
     records.append({
         "command": command, "exit_code": result.returncode,
-        "status": "blocked_no_credentials" if expected_block else "passed" if result.returncode == 0 else "failed",
+        "status": "passed" if result.returncode == 0 else "failed",
         "stdout": stdout, "stderr": stderr,
     })
     print(" ".join(command) + ": " + records[-1]["status"], flush=True)
-    if result.returncode != 0 and not expected_block:
+    if result.returncode != 0:
         print(stdout + stderr)
         failed = True
         break

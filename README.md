@@ -7,13 +7,11 @@ The rates are illustrative, not an actuarial or lending product.
 
 ## Reproduce
 
-Requires MoonBit **0.1.20261104** (moonc v0.10.20), Python 3 and `xmllint`.
+Requires **moon >= 0.1.20261104**, Python 3 and `xmllint`, with `moon` on PATH.
 Node.js is needed for JS tests; `moonrun` from the toolchain runs wasm-gc tests.
 Run these commands from this module's directory:
 
 ```sh
-export MOON_HOME=/tmp/moon-new
-export PATH="$MOON_HOME/bin:$PATH"
 moon version
 moon update
 # Already recorded in moon.mod; these reproduce the registry declarations:
@@ -22,11 +20,11 @@ moon add moonbitlang/x@0.5.7
 moon fmt
 moon fmt --check
 moon check --deny-warn --target native
-moon test --target native
+moon test --deny-warn --target native
 moon check --deny-warn --target js
-moon test --target js
+moon test --deny-warn --target js
 moon check --deny-warn --target wasm-gc
-moon test --target wasm-gc
+moon test --deny-warn --target wasm-gc
 python3 scripts/validate-model.py
 python3 scripts/test-cli.py
 python3 scripts/check-personal-data.py
@@ -74,13 +72,26 @@ Input must be an object with exactly these fields:
 | `startDate` | Valid FEEL date string, e.g. `2026-01-01` |
 
 The library uses JSON shape checks and FEEL predicates for validation, retaining
-the original JSON numeric text for exact decimal evaluation. Malformed JSON is
-`E_INPUT_JSON`; wrong shape, types or out-of-range values are `E_INPUT`. Engine
-failures retain their upstream codes. The CLI prints one JSON line and exits 0
-on success; usage, unreadable files and invalid inputs exit 1 with `error` and
-`message`. It reports `E_USAGE` or `E_IO` for CLI-specific failures. Dates come
-only from input, and no wall clock is read. JSON key order is fixed by the
-model's context expression; numbers are JSON numbers, not padded currency text.
+the original JSON numeric text for exact decimal evaluation. The CLI prints one
+JSON line and exits 0 on success. Errors exit 1 with `error` and `message`:
+
+| Error code | Meaning |
+| --- | --- |
+| `E_USAGE` | Missing input filename or extra command-line arguments |
+| `E_IO` | Input file cannot be read |
+| `E_INPUT_JSON` | The initial JSON parser rejects malformed JSON |
+| `E_INPUT` | Wrong object shape, types, business ranges or invalid date |
+| `E_JSON` | MoonDMN's strict JSON reader rejects the input, including duplicate keys that pass the initial shape checks |
+| `E_DECIMAL_RANGE` | A JSON number exceeds MoonDMN's decimal128/exponent limits |
+| `E_DECIMAL_SYNTAX` | MoonDMN rejects a numeric token, including one longer than its 10000-character limit |
+| `E_DATE_RANGE` | Quote date arithmetic exceeds MoonDMN's supported year range |
+| Other MoonDMN codes | Model parsing and FEEL evaluation failures retain their upstream codes |
+
+For example, adding a second `age` key to the otherwise valid sample returns
+`E_JSON`, not `E_INPUT_JSON`. Earlier shape/type checks can instead return
+`E_INPUT` before the strict reader runs. Dates come only from input, and no wall
+clock is read. JSON key order is fixed by the model's context expression;
+numbers are JSON numbers, not padded currency text.
 
 ## Rules and model validity
 
@@ -104,8 +115,11 @@ arithmetic and invalid inputs. Expected values are manually derived; **no Java
 or other reference DMN engine was used**, even if available locally.
 
 `validate-model.py` checks against the official [OMG DMN 1.3 schemas](https://www.omg.org/spec/DMN/1.3/)
-using `xmllint`. Schema URLs and SHA-256 hashes are pinned in
-`evidence/schema-sources.json`; downloads stay in an ignored local cache.
+using `xmllint`. **The first run requires network access** to download the OMG
+schemas from `omg.org`. Schema URLs and SHA-256 hashes are pinned in
+`evidence/schema-sources.json`; downloaded files are cached in this module's
+ignored `.validation-cache/` directory. Later runs reuse those files without
+network access, provided all four schemas are present; missing files are downloaded.
 This validates standard XML structure, independently of MoonDMN's parser.
 This example is not a TCK suite submission and has not been opened in a graphical
 DMN editor or evaluated by another engine.
@@ -120,4 +134,7 @@ resolved successfully at 0.2.2 during this example's verification.
 
 `ci/ci.yml` is an inert GitHub Actions template outside `.github/workflows`.
 It has not run on GitHub. No remote, push, publication or deployment is configured.
+`.moonignore` excludes internal audit/closeout records, validation logs and Git
+bundles from the package, while retaining `evidence/schema-sources.json` for the
+model validator. Inspect the publishing payload with `moon package --list`.
 The example is licensed under Apache-2.0; dependency licenses remain their own.

@@ -105,6 +105,10 @@ test "explicit input date, leap-day and month/year boundaries" {
 
 ///|
 test "bad JSON, shape, types, ranges and date produce stable error codes" {
+  let long_number = StringBuilder()
+  for i = 0; i < 10001; i = i + 1 {
+    long_number.write_char('1')
+  }
   let cases = [
     ("{", "E_INPUT_JSON"),
     ("[]", "E_INPUT"),
@@ -149,8 +153,14 @@ test "bad JSON, shape, types, ranges and date produce stable error codes" {
     (quote_input(40, 0, "0", false), "E_INPUT"),
     (quote_input(40, 0, "-1", false), "E_INPUT"),
     (quote_input(40, 0, "1000000.01", false), "E_INPUT"),
+    (quote_input(40, 0, "1e1000001", false), "E_DECIMAL_RANGE"),
+    (quote_input(40, 0, long_number.to_string(), false), "E_DECIMAL_SYNTAX"),
     (quote_input(40, 0, "20000", false, start="2026-02-30"), "E_INPUT"),
     (quote_input(40, 0, "20000", false, start="invalid"), "E_INPUT"),
+    (
+      quote_input(40, 0, "20000", false, start="999999999" + "-12-31"),
+      "E_DATE_RANGE",
+    ),
   ]
   for (input, expected) in cases {
     let code = try {
@@ -161,6 +171,19 @@ test "bad JSON, shape, types, ranges and date produce stable error codes" {
     }
     assert_eq(code, expected)
   }
+}
+
+///|
+test "duplicate JSON keys retain the strict reader E_JSON error" {
+  let input =
+    #|{"age":40,"claims":0,"insuredValue":20000,"paymentMonthly":false,"startDate":"2026-01-01","age":50}
+  let code = try {
+    ignore(price_quote(input))
+    "unexpected success"
+  } catch {
+    @types.Failure(code, _, _, _) => code
+  }
+  assert_eq(code, "E_JSON")
 }
 
 ///|

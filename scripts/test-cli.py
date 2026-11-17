@@ -47,6 +47,25 @@ class CliTests(unittest.TestCase):
             self.assertEqual(json.loads(result.stdout)["error"], code)
             self.assertEqual(result.stderr, "")
 
+    def test_strict_json_and_engine_errors(self):
+        sample = (ROOT / "samples/standard.json").read_text().strip()
+        cache = ROOT / ".validation-cache"
+        cache.mkdir(exist_ok=True)
+        path = cache / "cli-engine-error.json"
+        cases = [
+            (sample[:-1] + ',"age":50}', "E_JSON"),
+            (sample.replace("20000", "1e1000001"), "E_DECIMAL_RANGE"),
+            (sample.replace("20000", "1" * 10001), "E_DECIMAL_SYNTAX"),
+            (sample.replace("2026-01-01", str(10**9 - 1) + "-12-31"), "E_DATE_RANGE"),
+        ]
+        for text, code in cases:
+            with self.subTest(code=code):
+                path.write_text(text)
+                result = self.run_cli(str(path))
+                self.assertEqual(result.returncode, 1)
+                self.assertEqual(json.loads(result.stdout)["error"], code)
+                self.assertEqual(result.stderr, "")
+
 
 if __name__ == "__main__":
     unittest.main()

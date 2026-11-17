@@ -1,0 +1,10 @@
+/_build/
+/.mooncakes/
+/.validation-cache/
+/.credentials-free/
+/model_generated.mbt
+/audit/
+/closeout-audit/
+/evidence/*
+!/evidence/schema-sources.json
+*.bundle

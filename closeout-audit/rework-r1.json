@@ -1,0 +1,47 @@
+{
+  "round": "rework-r1",
+  "recorded_at": "2026-11-17T05:07:02.453225+00:00",
+  "review": "eco-examples-r1.md, section C",
+  "base_head": "d89c1d56fe78fa04bf4a305f19160d38de97eecf",
+  "version": "0.1.0",
+  "remotes": [],
+  "backup": ".validation-cache/source-r1.bundle; verified after commit in rework-r1-receipt.json",
+  "prior_backup_retained": ".validation-cache/source.bundle",
+  "candidates": [],
+  "moves": [],
+  "restore_mapping": [],
+  "trash_target": null,
+  "moved_bytes": 0,
+  "claimed_space_reclaimed_bytes": 0,
+  "retained": [
+    "current sources and Git history",
+    "current archive and build evidence",
+    "registry dependencies",
+    "original source bundle and receipt",
+    "schema cache and regression input fixtures"
+  ],
+  "temporary_services_started": [],
+  "browser_tabs_opened": [],
+  "blocked": [],
+  "checks": {
+    "native_tests": "8/8",
+    "js_tests": "8/8",
+    "wasm_gc_tests": "8/8",
+    "cli_tests": "5/5",
+    "package_regression_without_exclusions": "rejected 3 internal files",
+    "package_regression_with_exclusions": "passed; schema manifest retained"
+  },
+  "df_before_closeout": {
+    "filesystem": "/dev/disk3s5",
+    "blocks_1k": 482797652,
+    "used_1k": 328243024,
+    "available_1k": 109231052,
+    "capacity": "76%",
+    "mount": "/System/Volumes/Data"
+  },
+  "action_log": [
+    "No obsolete source copies or standalone testers created.",
+    "No cleanup candidates; retained validation inputs and build evidence.",
+    "No push, publication, remote configuration or external service changes."
+  ]
+}
