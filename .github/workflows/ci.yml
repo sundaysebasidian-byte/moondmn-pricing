@@ -14,10 +14,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install pinned MoonBit
-        run: curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- 0.1.20261104
-      - name: Configure PATH
-        run: echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Install MoonBit
+        shell: bash
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
       - name: Install XML validator
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
       - run: moon version
