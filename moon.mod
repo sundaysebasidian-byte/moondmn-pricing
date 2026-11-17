@@ -4,6 +4,8 @@ version = "0.1.0"
 
 readme = "README.md"
 
+repository = "https://github.com/sundaysebasidian-byte/moondmn-pricing"
+
 license = "Apache-2.0"
 
 description = "Insurance pricing example using the published MoonDMN package"

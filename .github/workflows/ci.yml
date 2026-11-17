@@ -1,6 +1,8 @@
-# Inert template. Move to .github/workflows/ only when explicitly enabling CI.
-name: Pricing example
+name: CI
 on:
+  push:
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read

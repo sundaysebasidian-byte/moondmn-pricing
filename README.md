@@ -132,8 +132,7 @@ not counts from this example and not a claim of full DMN conformance. The local
 upstream evidence heading still says unreleased; the registry dependency was
 resolved successfully at 0.2.2 during this example's verification.
 
-`ci/ci.yml` is an inert GitHub Actions template outside `.github/workflows`.
-It has not run on GitHub. No remote, push, publication or deployment is configured.
+`.github/workflows/ci.yml` runs the checks on Ubuntu for push, pull request and manual dispatch.
 `.moonignore` excludes internal audit/closeout records, validation logs and Git
 bundles from the package, while retaining `evidence/schema-sources.json` for the
 model validator. Inspect the publishing payload with `moon package --list`.
