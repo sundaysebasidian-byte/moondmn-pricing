@@ -1,0 +1,34 @@
+# Inert template. Move to .github/workflows/ only when explicitly enabling CI.
+name: Pricing example
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned MoonBit
+        run: curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- 0.1.20261104
+      - name: Configure PATH
+        run: echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Install XML validator
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+      - run: moon version
+      - run: moon update
+      - run: moon fmt --check
+      - run: moon check --deny-warn --target native
+      - run: moon test --target native
+      - run: moon check --deny-warn --target js
+      - run: moon test --target js
+      - run: moon check --deny-warn --target wasm-gc
+      - run: moon test --target wasm-gc
+      - run: python3 scripts/validate-model.py
+      - run: python3 scripts/test-cli.py
+      - run: python3 scripts/check-personal-data.py
+      - run: moon package --list
+      - run: moon package

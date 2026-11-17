@@ -1,0 +1,16 @@
+import {
+  "sundaysebasidian-byte/moondmn",
+  "sundaysebasidian-byte/moondmn/dmn/model",
+  "sundaysebasidian-byte/moondmn/feel/types",
+  "moonbitlang/core/json",
+}
+
+options(
+  "pre-build": [
+    {
+      "input": "models/insurance.dmn",
+      "output": "model_generated.mbt",
+      "command": ":embed -i $input -o $output --name model_xml",
+    },
+  ],
+)

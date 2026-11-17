@@ -1,0 +1,22 @@
+[
+  {
+    "file": "DMN13.xsd",
+    "url": "https://www.omg.org/spec/DMN/20191111/DMN13.xsd",
+    "sha256": "9d303f7a2146b98c00a3a53a5dce5364bfe4a22b1b1938933a5be4a2d1945834"
+  },
+  {
+    "file": "DMNDI13.xsd",
+    "url": "https://www.omg.org/spec/DMN/20191111/DMNDI13.xsd",
+    "sha256": "fa65df22ef7ea6f98379e7c60dd874d8118c50d1cccaab1f0e1f0a1a5d36cc46"
+  },
+  {
+    "file": "DI.xsd",
+    "url": "https://www.omg.org/spec/DMN/20180521/DI.xsd",
+    "sha256": "73a5908426f12021da85c9cce74ae70db5ddac1ebe9c9d28d8495f34bea60f07"
+  },
+  {
+    "file": "DC.xsd",
+    "url": "https://www.omg.org/spec/DMN/20180521/DC.xsd",
+    "sha256": "9f57b8e99b00163a65dfaf5de2a3e3ea4be041a1bb23228044c50693334d59e6"
+  }
+]

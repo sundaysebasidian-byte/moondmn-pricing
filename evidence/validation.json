@@ -1,0 +1,182 @@
+[
+  {
+    "command": [
+      "moon",
+      "version",
+      "--all"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "moon 0.1.20261104 (940aa18 2026-11-04) /tmp/moon-new/bin/moon\nmoonc v0.10.20+65efd5b93 (2026-11-05) /private/tmp/moon-new/bin/moonc\nmoonrun 0.1.20261104 (940aa18 2026-11-04) /private/tmp/moon-new/bin/moonrun\n\nFeature flags enabled: rr_moon_mod,rr_moon_pkg\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "moon",
+      "fmt"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "Finished. moon: ran 7 tasks, now up to date\n"
+  },
+  {
+    "command": [
+      "moon",
+      "fmt",
+      "--check"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "Finished. moon: ran 7 tasks, now up to date\n"
+  },
+  {
+    "command": [
+      "moon",
+      "check",
+      "--deny-warn"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "Finished. moon: ran 18 tasks, now up to date\n"
+  },
+  {
+    "command": [
+      "moon",
+      "test"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "Total tests: 7, passed: 7, failed: 0.\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "moon",
+      "check",
+      "--deny-warn",
+      "--target",
+      "js"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "Finished. moon: ran 3 tasks, now up to date\n"
+  },
+  {
+    "command": [
+      "moon",
+      "test",
+      "--target",
+      "js"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "Total tests: 7, passed: 7, failed: 0.\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "moon",
+      "check",
+      "--deny-warn",
+      "--target",
+      "wasm-gc"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "Finished. moon: ran 3 tasks, now up to date\n"
+  },
+  {
+    "command": [
+      "moon",
+      "test",
+      "--target",
+      "wasm-gc"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "Total tests: 7, passed: 7, failed: 0.\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/validate-model.py"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "models/insurance.dmn validates\n"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/test-cli.py"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "Artifacts:\n  sundaysebasidian-byte/moondmn-pricing/cmd/main  native  <module>/_build/native/debug/build/cmd/main/main.exe\n",
+    "stderr": "Finished. moon: ran 19 tasks, now up to date\n....\n----------------------------------------------------------------------\nRan 4 tests in 1.946s\n\nOK\n"
+  },
+  {
+    "command": [
+      "moon",
+      "run",
+      "cmd/main",
+      "--target",
+      "native",
+      "--",
+      "samples/standard.json"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "{\"risk\":\"standard\",\"basePremium\":400,\"surcharges\":0,\"annualPremium\":400,\"validUntil\":\"2026-01-31\",\"coverageEnd\":\"2027-01-01\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "moon",
+      "package",
+      "--list"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "Warning: 'repository' field is not set or empty in module manifest\nRunning moon check ...\nFinished. moon: ran 18 tasks, now up to date\nCheck passed\nLICENSE\nREADME.md\nci/ci.yml\ncloseout-audit/README.md\ncloseout-audit/manifest.json\ncmd/main/main.mbt\ncmd/main/moon.pkg\ncmd/main/pkg.generated.mbti\nevidence/schema-sources.json\nevidence/validation.json\nmodels/insurance.dmn\nmoon.mod\nmoon.pkg\npkg.generated.mbti\npricing.mbt\npricing_wbtest.mbt\nsamples/standard.expected.json\nsamples/standard.json\nscripts/check-personal-data.py\nscripts/test-cli.py\nscripts/validate-model.py\nscripts/verify.py\nvalidation_wbtest.mbt\nPackage to <module>/_build/publish/sundaysebasidian-byte-moondmn-pricing-0.1.0.zip\n"
+  },
+  {
+    "command": [
+      "moon",
+      "package"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "",
+    "stderr": "Warning: 'repository' field is not set or empty in module manifest\nRunning moon check ...\nFinished. moon: no work to do\nCheck passed\nPackage to <module>/_build/publish/sundaysebasidian-byte-moondmn-pricing-0.1.0.zip\n"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/check-personal-data.py"
+    ],
+    "exit_code": 0,
+    "status": "passed",
+    "stdout": "Personal-data grep clean: 24 deliverable files\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "moon",
+      "publish",
+      "--dry-run"
+    ],
+    "exit_code": 255,
+    "status": "blocked_no_credentials",
+    "stdout": "",
+    "stderr": "Registry login is required; run `moon login`\nError: `moon publish` failed\n"
+  }
+]
